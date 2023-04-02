@@ -1,0 +1,187 @@
+<Ui xmlns="http://www.runewaker.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="../../worldxml/ui.xsd"> 
+	<Script file="XAntiSpam.lua"/>
+	<Button name="XAntiSpamButtonTemp" virtual="true">
+		<Size><AbsDimension x="570" y="22"/></Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" inherits="GameTitleFont" justifyH="LEFT">
+					<Size><AbsDimension x="560" y="20"/></Size>
+					<Anchors><Anchor point="LEFT"><Offset>
+						<AbsDimension x="8" y="0"/></Offset></Anchor></Anchors>
+				</FontString>
+				<Texture name="$parentMark" file="Interface\Common\BarFill" alphaMode="ADD" hidden="true">
+					<Anchors><Anchor point="LEFT"/></Anchors>
+					<Color r="0" g=".2" b=".7"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<HighlightTexture file="Interface\Common\BarFill" alphaMode="ADD">
+			<Anchors><Anchor point="TOPLEFT"/></Anchors>
+			<Color r="0" g=".1" b=".5"/>
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>this:RegisterForClicks("LeftButton","RightButton");</OnLoad>
+		</Scripts>
+	</Button>
+	<Button name="XAntiSpamTempSys" inherits="XAntiSpamButtonTemp" virtual="true">
+		<Scripts>
+			<OnMouseWheel>XAntiSpamSys_OnWheel(this,delta);</OnMouseWheel>
+			<OnClick>XAntiSpamSys_OnClick(this,key);</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="XAntiSpamTempSpam" inherits="XAntiSpamButtonTemp" virtual="true">
+		<Scripts>
+			<OnMouseWheel>XAntiSpamLegend_OnWheel(this,delta);</OnMouseWheel>
+			<OnClick>XAntiSpamLegend_OnClick(this,key);</OnClick>
+		</Scripts>
+	</Button>
+	<Frame name="XAntiSpamLegendTemp" virtual="true">
+		<Size><AbsDimension x="590" y="170"/></Size>
+		<Backdrop edgeFile="Interface\Tooltips\Tooltip-Border">
+			<EdgeSize><AbsValue val="16"/></EdgeSize>
+			<TileSize><AbsValue val="16"/></TileSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Head" inherits="GameFontNormal" justifyH="LEFT">
+					<Size><AbsDimension x="570" y="16"/></Size>
+					<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="10" y="10"/></Offset></Anchor></Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="XAntiSpamGUI" parent="UIParent" hidden="true" enableMouse="true" frameStrata="MEDIUM" frameLevel="1">
+		<Size><AbsDimension x="612" y="503"/></Size>
+		<Anchors><Anchor point="CENTER"/></Anchors>
+		<Backdrop edgeFile="Interface\Tooltips\Tooltip-Border" bgFile="Interface\Tooltips\Tooltip-Background">
+			<BackgroundInsets><AbsInset top="4" left="4" bottom="4" right="4"/></BackgroundInsets>
+			<EdgeSize><AbsValue val="16"/></EdgeSize>
+			<TileSize><AbsValue val="16"/></TileSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Version" inherits="Font_FrameTitle">
+					<Anchors><Anchor point="TOP"><Offset>
+						<AbsDimension x="0" y="10"/></Offset></Anchor></Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parent_CloseB" inherits="UIPanelButtonTemplate" text="CLOSE">
+				<Anchors><Anchor point="BOTTOMRIGHT"><Offset><AbsDimension x="-7" y="-6"/></Offset></Anchor></Anchors>
+				<Size><AbsDimension x="110" y="30"/></Size>
+				<Scripts>
+					<OnClick>XAntiSpam_Close(this);</OnClick>
+				</Scripts>
+			</Button>
+			<CheckButton name="$parent_Enable" inherits="UIPanelCheckButtonTemplate">
+				<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="15" y="30"/></Offset></Anchor></Anchors>
+				<Layers>
+					<Layer>
+						<FontString name="$parent_Text" inherits="GameFontNormalLarge" justifyH="LEFT" text="ON">
+							<Anchors><Anchor point="LEFT" relativeTo="$parent" relativePoint="RIGHT"/></Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>XAntiSpamSet["Spam"] = this:IsChecked();</OnClick>
+				</Scripts>
+			</CheckButton>
+			<EditBox name="$parent_Edit" inherits="UIPanelEditBoxTemplate">
+				<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="20" y="90"/></Offset></Anchor></Anchors>
+				<Size><AbsDimension x="350" y="18"/></Size>
+				<Layers><Layer>
+						<FontString name="$parent_Text" inherits="GameFontNormalLarge" justifyH="LEFT">
+							<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="0" y="-20"/></Offset></Anchor></Anchors>
+						</FontString>
+					</Layer></Layers>
+				<Scripts>
+					<OnEnterPressed>XAntiSpam_SpamAdd();</OnEnterPressed>
+				</Scripts>
+			</EditBox>
+			<Button name="$parent_Add" inherits="UIPanelButtonTemplate" text="CSTRING_ADD">
+				<Anchors><Anchor point="TOPRIGHT"><Offset><AbsDimension x="-7" y="80"/></Offset></Anchor></Anchors>
+				<Size><AbsDimension x="110" y="30"/></Size>
+				<Scripts>
+					<OnClick>XAntiSpam_SpamAdd();</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_Del" inherits="UIPanelButtonTemplate" hidden="true" text="C_DEL">
+				<Anchors><Anchor point="RIGHT" relativeTo="$parent_CloseB" relativePoint="LEFT"/></Anchors>
+				<Size><AbsDimension x="110" y="30"/></Size>
+				<Scripts>
+					<OnClick>XAntiSpam_SpamDel();</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>XAntiSpam_OnLoad(this);</OnLoad>
+			<OnEvent>XAntiSpam_ChatEvent(this, event); XAntiSpam_OnEvent(event);</OnEvent>
+			<OnShow>
+				XAntiSpam_OnShow(this);
+				XAntiSpamLegend.start = 1;
+				XAntiSpamLegend_OnShow(this,"SPAM");
+				XAntiSpamSys.start = 1;
+				XAntiSpamSys_OnShow(this,"SYS");
+			</OnShow>
+			<OnMouseDown>
+				if not XBARVERSION then
+					this:StartMoving();
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if not XBARVERSION then
+					this:StopMovingOrSizing();
+				end
+			</OnMouseUp>
+		</Scripts>
+	</Frame>
+	<Frame name="XAntiSpamSys" parent="XAntiSpamGUI" inherits="XAntiSpamLegendTemp" hidden="true" frameStrata="BACKGROUND" frameLevel="1">
+		<Anchors><Anchor point="TOPLEFT" relativeTo="XAntiSpamGUI"><Offset>
+			<AbsDimension x="10" y="120"/></Offset></Anchor></Anchors>
+		<Frames>
+			<Button name="$parent_Button1" inherits="XAntiSpamTempSys" id="1" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Head" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button2" inherits="XAntiSpamTempSys" id="2" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button1" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button3" inherits="XAntiSpamTempSys" id="3" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button2" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button4" inherits="XAntiSpamTempSys" id="4" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button3" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button5" inherits="XAntiSpamTempSys" id="5" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button4" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button6" inherits="XAntiSpamTempSys" id="6" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button5" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="XAntiSpamLegend" parent="XAntiSpamGUI" inherits="XAntiSpamLegendTemp" hidden="true" frameStrata="BACKGROUND" frameLevel="1">
+		<Anchors><Anchor point="TOPLEFT" relativeTo="XAntiSpamGUI"><Offset>
+			<AbsDimension x="10" y="290"/></Offset></Anchor></Anchors>
+		<Frames>
+			<Button name="$parent_Button1" inherits="XAntiSpamTempSpam" id="1" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Head" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button2" inherits="XAntiSpamTempSpam" id="2" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button1" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button3" inherits="XAntiSpamTempSpam" id="3" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button2" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button4" inherits="XAntiSpamTempSpam" id="4" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button3" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button5" inherits="XAntiSpamTempSpam" id="5" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button4" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+			<Button name="$parent_Button6" inherits="XAntiSpamTempSpam" id="6" hidden="true">
+				<Anchors><Anchor point="TOP" relativeTo="$parent_Button5" relativePoint="BOTTOM"/></Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+</Ui>
